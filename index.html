@@ -4,16 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link id="favicon"  rel="icon"  href="favicons/0.png"  type="image/png"  sizes="16*16">
     <script src="index.js" defer></script>
     <script src="https://kit.fontawesome.com/3791a5ccb0.js" crossorigin="anonymous"></script>
 
     <title>Weather app</title>
 </head>
-<body>
-    <div class="app">
-        <div class="favourite">
-
-        </div>
+<body onload="loadTable()">
+    <main>
+        <nav>
+            <h2 class="title">Ulubione</h2>
+            <table>
+                <tbody id="favourite-table">
+                </tbody>
+            </table>
+        </nav>
         <div class="main">
             <div class="weather">
                 
@@ -34,11 +39,12 @@
                     <input type="text" name="search" id="search">
                     <div class="buttons">
                         <button id="searchButton">Wyszukaj</button>
-                        <i id="add-to-favourite" class="icon fa-regular fa-star"></i>
+                        <i id="add-to-favourite" class="icon fa-regular fa-star hide"></i>
                     </div>
                 </div>
+                
             </div>
         </div>
-    </div>
+    </main>
 </body>
 </html>

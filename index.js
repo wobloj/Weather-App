@@ -1,15 +1,22 @@
-let searchingQuery = document.getElementById("search");
+const searchingQuery = document.getElementById("search");
 const searchButton = document.getElementById("searchButton");
+const favicon = document.getElementById("favicon")
 
-let currLocation = document.getElementById("location");
-let currTemp = document.getElementById("temperature");
-let currTempFellslike = document.getElementById("temperature-feelslike");
-let currCloud = document.getElementById("cloud");
-let currWind = document.getElementById("wind");
-let currHumidity = document.getElementById("humidity");
-let currCondition = document.getElementById("condition");
-let currWeatherIcon = document.getElementById("weather_icon")
+const currLocation = document.getElementById("location");
+const currTemp = document.getElementById("temperature");
+const currTempFellslike = document.getElementById("temperature-feelslike");
+const currCloud = document.getElementById("cloud");
+const currWind = document.getElementById("wind");
+const currHumidity = document.getElementById("humidity");
+const currCondition = document.getElementById("condition");
+const currWeatherIcon = document.getElementById("weather_icon")
 
+const favouriteButton = document.getElementById("add-to-favourite")
+const deleteButton = document.getElementById("delete")
+let favouriteLocationTemp;
+
+const favouriteTable = document.getElementById("favourite-table")
+const favTd = document.getElementById("fav")
 
 async function loadWeatherData(location){
     const url = `https://weatherapi-com.p.rapidapi.com/current.json?q=${location}&lang=pl`;
@@ -20,13 +27,23 @@ async function loadWeatherData(location){
             'X-RapidAPI-Host': 'weatherapi-com.p.rapidapi.com'
         }
     };
-    
     try {
         const response = await fetch(url, options);
         const result = await response.json();
+        console.log(result);
         setWeatherData(location, result.current.temp_c, result.current.feelslike_c, result.current.cloud, result.current.wind_kph, result.current.wind_dir, result.current.humidity, result.current.condition.text, result.current.condition.icon);
+        favouriteLocationTemp = location;
+        document.title = location;
+        favicon.href = result.current.condition.icon;
     } catch (error) {
         currTemp.innerHTML="Nie znaleziono lokalizacji"
+        currLocation.innerHTML = '';
+        currCondition.innerHTML = ''
+        currTempFellslike.innerHTML = '';
+        currCloud.innerHTML = '';
+        currWind. innerHTML = ''
+        currHumidity.innerHTML = ''
+        currWeatherIcon.src = ''
         console.error(error);
     }
 }
@@ -42,6 +59,56 @@ function setWeatherData(location, temp_c, feelslike_c, cloud, wind, wind_dir, hu
     currWeatherIcon.src = `${icon}`
     searchingQuery.value = ''
 }
+
+function existInFavourite(storage, location){
+    if(location != ''){
+        for (let i = 0; i < storage.length; i++) {
+            if(localStorage.getItem(i) == location){
+                return true
+            }
+        }
+    }
+    return 
+}
+
+function addToFavourite(location){
+    if(!existInFavourite(localStorage, location)){
+        localStorage.setItem(localStorage.length, location);
+        
+    }
+}
+
+function deleteFromFavourite(value){
+    console.log(value);
+    localStorage.removeItem(value)
+    location.reload(true)
+}
+
+function loadTable(){
+    Object.keys(localStorage).forEach(key =>{
+        favouriteTable.innerHTML += 
+        `
+        <tr>
+            <td id="delete" onclick="deleteFromFavourite(${key})"><i class="fa-regular fa-trash-can"></i></td>
+            <td id="fav" class="select-fav" onclick="loadWeatherData('${localStorage.getItem(key)}')">${localStorage.getItem(key)}</td>
+        </tr>
+        `
+    })
+}
+
+function addToTable(id, location){
+    favouriteTable.innerHTML += 
+    `
+    <tr>
+        <td id="delete" onclick="deleteFromFavourite(${id})"><i class="fa-regular fa-trash-can"></i></td>
+        <td id="fav" class="select-fav">${location}</td>
+    </tr>
+    `
+}
+
+favouriteButton.addEventListener("click", ()=>{
+    addToFavourite(favouriteLocationTemp)
+})
 
 searchButton.addEventListener("click", () =>{
     loadWeatherData(searchingQuery.value)
