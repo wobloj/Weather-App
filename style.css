@@ -17,6 +17,7 @@ main{
     width: 100vw;
     height: 100vh;
     display: flex;
+    position: relative;
 }
 
 nav{
@@ -99,21 +100,13 @@ nav{
 }
 
 .icon{
-    color: #292929;
+    color: #757575;
     text-shadow: 1px rgba(255, 0, 0, 0.15);
     cursor: pointer;
     font-size: 25px;
 }
 .icon:hover{
     color:rgb(248, 209, 103);
-}
-
-.fa-solid{
-    color:rgb(248, 209, 103);
-}
-
-.hide{
-    display: none;
 }
 
 .buttons{
@@ -183,12 +176,60 @@ nav > table > tbody > tr > td:nth-child(2){
     color: rgb(145, 252, 172);
 }
 
-
-
 #delete{
     cursor: pointer;
 }
 
 #delete:hover{
     color: rgb(255, 106, 106);
+}
+
+.info-box{
+    font-size: 14px;
+    position: absolute;
+    background: rgba( 255, 255, 255, 0.15 );
+    box-shadow: 0 8px 32px 0 rgba(106, 109, 156, 0.37);
+    backdrop-filter: blur( 4.5px );
+    -webkit-backdrop-filter: blur( 4.5px );
+    height: 100px;
+    max-width: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    padding: 20px;
+    border-radius: 1em;
+    opacity: 0;
+    text-align: center;
+    transform: translateY();
+    bottom: 0;
+    left:50%;
+}
+
+.anim-in{
+    animation: pop-in 1s ease-in-out forwards;
+}
+.anim-out{
+    animation: pop-out 1s ease-in-out forwards;
+}
+
+@keyframes pop-in {
+    100%{
+        opacity: 1;
+        bottom: 5%;
+    }
+    0%{
+        opacity: 0;
+        bottom: 0;
+    }
+}
+@keyframes pop-out {
+    100%{
+        opacity: 0;
+        bottom: 0%;
+    }
+    0%{
+        opacity: 1;
+        bottom: 5%;
+    }
 }

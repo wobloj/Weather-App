@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,7 +21,6 @@
         </nav>
         <div class="main">
             <div class="weather">
-                
                 <div class="main-location">
                     <div class="name_icon">
                         <img id="weather_icon" src="" alt="">
@@ -29,7 +28,7 @@
                     </div>
                     <p class="condition" id="condition"></p>
                 </div>
-                <p id="temperature"  class="temperature"></p>
+                <p id="temperature" class="temperature"></p>
                 <p id="temperature-feelslike" class="temperature-feelslike"></p>
                 <p id="cloud" class="cloud"></p>
                 <p id="wind" class="wind"></p>
@@ -39,11 +38,14 @@
                     <input type="text" name="search" id="search">
                     <div class="buttons">
                         <button id="searchButton">Wyszukaj</button>
-                        <i id="add-to-favourite" class="icon fa-regular fa-star hide"></i>
+                        <i style="display: none;" id="add-to-favourite" class="icon fa-regular fa-solid fa-star"></i>
                     </div>
                 </div>
                 
             </div>
+        </div>
+        <div id="info-box" class="info-box">
+            
         </div>
     </main>
 </body>
