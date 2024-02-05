@@ -10,6 +10,7 @@ const currWind = document.getElementById("wind");
 const currHumidity = document.getElementById("humidity");
 const currCondition = document.getElementById("condition");
 const currWeatherIcon = document.getElementById("weather_icon")
+const containsInfo = document.getElementById("contains")
 
 const favouriteButton = document.getElementById("add-to-favourite")
 const deleteButton = document.getElementById("delete")
@@ -36,7 +37,7 @@ async function loadWeatherData(location){
         const result = await response.json();
         setWeatherData(location, result.current.temp_c, result.current.feelslike_c, result.current.cloud, result.current.wind_kph, result.current.wind_dir, result.current.humidity, result.current.condition.text, result.current.condition.icon);
         favouriteLocationTemp = location;
-        document.title = location;
+        document.title = `${location} - ${result.current.condition.text}`;
         favicon.href = result.current.condition.icon;
         favouriteButton.style.display = "block"
     } catch (error) {
@@ -68,11 +69,11 @@ function existInFavourite(storage, location) {
     if (location !== undefined && location !== '') {
         for (let key in storage) {
             if (storage.hasOwnProperty(key) && localStorage.getItem(key) === location) {
+                console.log("exist")
+                displayInfo("exist", location)
                 return true;
             }
-            displayInfo("exist", location)
         }
-        
         return false;
     }
     return false;
@@ -95,6 +96,14 @@ function deleteFromFavourite(value){
 
 function loadTable(){
     favouriteTable.innerHTML = ''
+    containsInfo.innerHTML = ''
+
+    if(localStorage.length == 0){
+        containsInfo.innerHTML = 
+        `
+            Lista jest pusta
+        `
+    }
 
     Object.keys(localStorage).forEach(key =>{
         favouriteTable.innerHTML += 
